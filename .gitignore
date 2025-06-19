@@ -129,3 +129,11 @@ dist
 build
 .strapi-updater.json
 .strapi-cloud.json
+node_modules/
+.env
+.terraform/
+terraform.tfstate*
+dist/
+.tmp/
+build/
+.DS_Store
