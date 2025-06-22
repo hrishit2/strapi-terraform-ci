@@ -38,7 +38,12 @@ resource "aws_ecs_service" "strapi_service" {
   cluster         = aws_ecs_cluster.strapi_cluster.id
   task_definition = aws_ecs_task_definition.strapi_task.arn
   desired_count   = 1
-  launch_type     = "FARGATE"
+
+  # ✅ Use FARGATE_SPOT via capacity provider strategy
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE_SPOT"
+    weight            = 1
+  }
 
   network_configuration {
     subnets          = data.aws_subnets.default.ids
