@@ -11,28 +11,29 @@ resource "aws_ecs_task_definition" "strapi_task" {
   memory                   = "1024"
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
 
-  container_definitions = jsonencode([{
-    name      = "strapi"
-    image     = "image = "gojo922/strapi-app:latest"
-"
-    essential = true
+ container_definitions = jsonencode([
+  {
+    name  = "strapi",
+    image = "gojo922/strapi-app:latest",
+    essential = true,
     portMappings = [
       {
-        containerPort = 1337
-        hostPort      = 1337
+        containerPort = 1337,
+        hostPort      = 1337,
         protocol      = "tcp"
       }
     ],
     logConfiguration = {
-      logDriver = "awslogs"
+      logDriver = "awslogs",
       options = {
-        awslogs-group         = aws_cloudwatch_log_group.strapi.name
-        awslogs-region        = "ap-south-1"
+        awslogs-group         = aws_cloudwatch_log_group.strapi.name,
+        awslogs-region        = "ap-south-1",
         awslogs-stream-prefix = "strapi"
       }
     }
-  }])
-}
+  }
+])
+
 
 resource "aws_ecs_service" "strapi_service" {
   name            = "strapi-service"
