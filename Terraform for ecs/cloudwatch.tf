@@ -71,70 +71,70 @@ resource "aws_cloudwatch_dashboard" "strapi_dashboard" {
   dashboard_body = jsonencode({
     widgets = [
       {
-        type = "metric",
-        x = 0,
-        y = 0,
-        width = 12,
+        type   = "metric",
+        x      = 0,
+        y      = 0,
+        width  = 12,
         height = 6,
         properties = {
           title = "Strapi CPU Utilization",
           metrics = [
-            [ "AWS/ECS", "CPUUtilization", "ClusterName", aws_ecs_cluster.strapi_cluster.name, "ServiceName", aws_ecs_service.strapi_service.name ]
+            ["AWS/ECS", "CPUUtilization", "ClusterName", aws_ecs_cluster.strapi_cluster.name, "ServiceName", aws_ecs_service.strapi_service.name]
           ],
-          view = "timeSeries",
+          view   = "timeSeries",
           region = "ap-south-1",
-          stat = "Average",
+          stat   = "Average",
           period = 60
         }
       },
       {
-        type = "metric",
-        x = 12,
-        y = 0,
-        width = 12,
+        type   = "metric",
+        x      = 12,
+        y      = 0,
+        width  = 12,
         height = 6,
         properties = {
           title = "Strapi Memory Utilization",
           metrics = [
-            [ "AWS/ECS", "MemoryUtilization", "ClusterName", aws_ecs_cluster.strapi_cluster.name, "ServiceName", aws_ecs_service.strapi_service.name ]
+            ["AWS/ECS", "MemoryUtilization", "ClusterName", aws_ecs_cluster.strapi_cluster.name, "ServiceName", aws_ecs_service.strapi_service.name]
           ],
-          view = "timeSeries",
+          view   = "timeSeries",
           region = "ap-south-1",
-          stat = "Average",
+          stat   = "Average",
           period = 60
         }
       },
       {
-        type = "metric",
-        x = 0,
-        y = 6,
-        width = 12,
+        type   = "metric",
+        x      = 0,
+        y      = 6,
+        width  = 12,
         height = 6,
         properties = {
           title = "Network In",
           metrics = [
-            [ "AWS/ECS", "NetworkBytesIn", "ClusterName", aws_ecs_cluster.strapi_cluster.name, "ServiceName", aws_ecs_service.strapi_service.name ]
+            ["AWS/ECS", "NetworkBytesIn", "ClusterName", aws_ecs_cluster.strapi_cluster.name, "ServiceName", aws_ecs_service.strapi_service.name]
           ],
-          view = "timeSeries",
+          view   = "timeSeries",
           region = "ap-south-1",
-          stat = "Sum",
+          stat   = "Sum",
           period = 60
         }
       },
       {
-        type = "metric",
-        x = 12,
-        y = 6,
-        width = 12,
+        type   = "metric",
+        x      = 12,
+        y      = 6,
+        width  = 12,
         height = 6,
         properties = {
           title = "Network Out",
           metrics = [
-            [ "AWS/ECS", "NetworkBytesOut", "ClusterName", aws_ecs_cluster.strapi_cluster.name, "ServiceName", aws_ecs_service.strapi_service.name ]
+            ["AWS/ECS", "NetworkBytesOut", "ClusterName", aws_ecs_cluster.strapi_cluster.name, "ServiceName", aws_ecs_service.strapi_service.name]
           ],
-          view = "timeSeries",
+          view   = "timeSeries",
           region = "ap-south-1",
-          stat = "Sum",
+          stat   = "Sum",
           period = 60
         }
       }

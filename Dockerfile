@@ -1,20 +1,33 @@
-# Use Node.js 18 as the base image
+# 1. Use Node.js 18 LTS as base image
 FROM node:18
 
-# Set working directory inside the container
+# 2. Set working directory
 WORKDIR /app
 
-# Copy everything from current directory to container
-COPY . .
+# 3. Copy package.json and lock file first for caching
+COPY package*.json ./
 
-# Install dependencies
+# 4. Install app dependencies
 RUN npm install
 
-# Build the Strapi admin panel
+# 5. Copy the rest of the application code
+COPY . .
+
+# 5.1. Copy environment file
+COPY .env .env
+
+# 6. Build the Strapi admin panel
 RUN npm run build
 
-# Expose Strapi port
+# 7. Ensure correct permissions (especially for .tmp & public)
+RUN chown -R node:node /app
+
+# 8. Set non-root user (recommended for ECS)
+USER node
+
+# 9. Expose the default Strapi port
 EXPOSE 1337
 
-# Start the app
+# 10. Start the app
 CMD ["npm", "start"]
+

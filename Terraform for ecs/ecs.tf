@@ -13,9 +13,8 @@ resource "aws_ecs_task_definition" "strapi_task" {
 
   container_definitions = jsonencode([
     {
-      name  = "strapi",
-      image = "gojo922/strapi-app:latest", # <-- 🔧 FIXED: comma added at the end of line to avoid parse error
-
+      name      = "strapi",
+      image     = "gojo922/strapi-app:v2",
       essential = true,
       portMappings = [
         {
@@ -27,14 +26,48 @@ resource "aws_ecs_task_definition" "strapi_task" {
       logConfiguration = {
         logDriver = "awslogs",
         options = {
-          awslogs-group         = aws_cloudwatch_log_group.strapi.name,
+          awslogs-group         = "/ecs/strapi-logs",
           awslogs-region        = "ap-south-1",
           awslogs-stream-prefix = "strapi"
         }
-      }
+      },
+      environment = [
+        {
+          name  = "HOST"
+          value = "0.0.0.0"
+        },
+        {
+          name  = "PORT"
+          value = "1337"
+        },
+        {
+          name  = "APP_KEYS"
+          value = "VYc6Pm8TAmgDqHyYVpZPkg==,e7EPfbVUGglcOROhY895Bw==,7UbGSC1vB4A8YgzVbl8vVw==,2/5apScjuSwd7Co0AtbTDg=="
+        },
+        {
+          name  = "API_TOKEN_SALT"
+          value = "UUhnPv6dCxAOapJqtFocjA=="
+        },
+        {
+          name  = "ADMIN_JWT_SECRET"
+          value = "kCmMDIY2yiuOlJnHPzddYQ=="
+        },
+        {
+          name  = "TRANSFER_TOKEN_SALT"
+          value = "6x3iyku3iyeBlFF0bdmHvA=="
+        },
+        {
+          name  = "ENCRYPTION_KEY"
+          value = "sC3UIKNEJMdKLf/vUBD60Q=="
+        },
+        {
+          name  = "JWT_SECRET"
+          value = "T7N4Vh5JR4x5Y/+O9JA4Ew=="
+        }
+      ]
     }
-  ]) # <-- ✅ Ends the jsonencode array
-}    # <-- ✅ FIXED: This was **missing** earlier; closes `aws_ecs_task_definition` block
+  ])
+}
 
 resource "aws_ecs_service" "strapi_service" {
   name            = "strapi-service"
@@ -57,4 +90,3 @@ resource "aws_ecs_service" "strapi_service" {
     aws_iam_role_policy_attachment.ecs_task_execution_attach
   ]
 }
-
